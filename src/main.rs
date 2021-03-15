@@ -1,7 +1,7 @@
 extern crate clap;
 extern crate reqwest;
 
-use clap::{App, Arg};
+use clap::{crate_version, App, Arg};
 use reqwest::header::CONTENT_LENGTH;
 use std::io::{self, Read};
 use std::path::PathBuf;
@@ -10,7 +10,7 @@ use std::{fs, process::exit};
 
 fn main() {
     let matches = App::new("cargo-diff")
-        .version("v0.0.1")
+        .version(&crate_version!()[..])
         .arg(
             Arg::with_name("PACKAGE_NAME")
                 .help("Sets package name")
