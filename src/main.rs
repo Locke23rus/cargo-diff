@@ -2,6 +2,7 @@ extern crate clap;
 extern crate reqwest;
 
 use clap::{crate_version, App, Arg};
+use rand::{distributions::Alphanumeric, thread_rng, Rng};
 use reqwest::header::CONTENT_LENGTH;
 use std::io::{self, Read};
 use std::path::PathBuf;
@@ -52,9 +53,16 @@ fn main() {
     println!("{}", crate_dir2.display());
 }
 
+fn random_string() -> String {
+    thread_rng()
+        .sample_iter(&Alphanumeric)
+        .take(10)
+        .map(char::from)
+        .collect()
+}
+
 fn create_temp_dir() -> io::Result<PathBuf> {
-    let dir = env::temp_dir().join("qwe");
-    // FIXME: generate unique name
+    let dir = env::temp_dir().join(format!("cargo-diff-{}", random_string()));
     fs::create_dir_all(dir.clone())?;
     println!("Created temp_dir: {}", dir.display());
     Ok(dir)
