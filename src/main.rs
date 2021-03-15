@@ -55,9 +55,8 @@ fn main() {
 }
 
 fn create_temp_dir() -> io::Result<PathBuf> {
-    let mut dir = env::temp_dir();
+    let dir = env::temp_dir().join("qwe");
     // FIXME: generate unique name
-    dir.push("qwe");
     fs::create_dir_all(dir.clone())?;
     println!("Created temp_dir: {}", dir.display());
     Ok(dir)
@@ -91,9 +90,7 @@ fn download_and_extract_crate(
         }
     }
 
-    let mut crate_dir = dir.clone();
-    crate_dir.push(format!("{}-{}", name, version));
-
+    let crate_dir = dir.join(format!("{}-{}", name, version));
     Ok(crate_dir)
 }
 
