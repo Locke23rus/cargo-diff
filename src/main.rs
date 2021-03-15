@@ -40,15 +40,13 @@ fn main() {
         temp_dir.clone(),
         package_name.to_string(),
         version1.to_string(),
-    )
-    .unwrap();
+    );
 
     let crate_dir2 = download_and_extract_crate(
         temp_dir.clone(),
         package_name.to_string(),
         version2.to_string(),
-    )
-    .unwrap();
+    );
 
     println!("{}", crate_dir1.display());
     println!("{}", crate_dir2.display());
@@ -62,11 +60,7 @@ fn create_temp_dir() -> io::Result<PathBuf> {
     Ok(dir)
 }
 
-fn download_and_extract_crate(
-    dir: PathBuf,
-    name: String,
-    version: String,
-) -> Result<PathBuf, String> {
+fn download_and_extract_crate(dir: PathBuf, name: String, version: String) -> PathBuf {
     let crate_bytes = download_crate(name.clone(), version.clone()).unwrap_or_else(|e| {
         println!(
             "Failed to download crate `{}={}`: {}",
@@ -90,8 +84,7 @@ fn download_and_extract_crate(
         }
     }
 
-    let crate_dir = dir.join(format!("{}-{}", name, version));
-    Ok(crate_dir)
+    dir.join(format!("{}-{}", name, version))
 }
 
 /// Download given crate and return it as a vector of gzipped bytes.
